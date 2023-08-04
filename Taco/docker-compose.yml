@@ -1,0 +1,23 @@
+version: '3'
+
+volumes:
+  site:
+
+services:
+  Taco-server:    
+    image: taco:v0.1.0
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512MB
+    volumes:
+      - site:/var/www/html
+    expose:
+      - 80
+      - 443
+    networks:
+      - Ho
+networks:
+  Ho:
+    external: true

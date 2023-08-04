@@ -1,0 +1,21 @@
+version: '3'
+
+volumes:
+  ho-conf:
+  ho-certbot:
+
+services:
+  Server:
+    image: ssl-server:v0.1.0
+    restart: always
+    volumes:
+      - ho-certbot:/etc/letsencrypt
+      - ho-conf:/etc/nginx/conf.d
+    ports:
+      - "443:443"
+      - "80:80"
+    networks:
+      - Ho
+networks:
+  Ho:
+    external: true
