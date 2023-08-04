@@ -8,13 +8,15 @@ RUN apt-get update && apt install -y \
 	python3-certbot-nginx \
 	cron  
 
+COPY minio.conf /etc/nginx/conf.d/minio.conf
+COPY minioapi.conf /etc/nginx/conf.d/minioapi.conf
 COPY taco.conf /etc/nginx/conf.d/taco.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY /ssl-renew/renew_cert.sh /ssl-renew/renew_cert.sh
 COPY renew_cert_job /etc/cron.d/
-COPY /install-ssl/*.sh
+COPY /install-ssl/ssl.sh /install-ssl/ssl.sh
 
-RUN chmod +x /install-ssl/taco-ssl.sh
+RUN chmod +x /install-ssl/ssl.sh
 RUN chmod +x /ssl-renew/renew_cert.sh
 RUN chmod 0644 /etc/cron.d/renew_cert_job
 
