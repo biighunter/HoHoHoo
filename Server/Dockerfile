@@ -8,10 +8,7 @@ RUN apt-get update && apt install -y \
 	python3-certbot-nginx \
 	cron  
 
-COPY /conf.d/harbor.conf /etc/nginx/conf.d/harbor.conf
-COPY /conf.d/minio.conf /etc/nginx/conf.d/minio.conf
-COPY /conf.d/minioapi.conf /etc/nginx/conf.d/minioapi.conf
-COPY /conf.d/taco.conf /etc/nginx/conf.d/taco.conf
+COPY /conf.d/*.conf /etc/nginx/conf.d/
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY /ssl-renew/renew_cert.sh /ssl-renew/renew_cert.sh
 COPY renew_cert_job /etc/cron.d/
