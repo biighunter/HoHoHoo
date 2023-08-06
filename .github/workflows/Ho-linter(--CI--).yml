@@ -24,8 +24,7 @@ jobs:
           
       - name: Deploy to Server
         run: |
-          ssh root@159.65.199.5
-          cd /root/HoHoHoo/
+          ssh -tt root@159.65.199.5 "cd /root/HoHoHoo/ && echo 'Hello from the remote server'"
 
       - name: Build Docker Images and Run Docker Compose
         run: |
