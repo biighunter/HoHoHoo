@@ -15,26 +15,18 @@ jobs:
 
         with:
           compose-file: docker-compose.yml
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan 159.65.199.5 >> ~/.ssh/known_hosts
-          
-      - name: Deploy to Server
-        run: |
-          ssh -tt root@159.65.199.5 "cd /root/HoHoHoo/ && echo 'Hello from the remote server'"
 
       - name: Build Docker Images and Run Docker Compose
         run: |
           cd ./Taco/
+          docker build -t taco:v0.1.0 .
           docker-compose up -d
           cd ../MinIO/
           docker-compose up -d
           cd ../Harbor/
           docker-compose up -d
           cd ../Server/
+          docker build -t ssl-server:v0.1.0 .
           docker-compose up -d
 
       - name: Push Docker Images To Harbor
