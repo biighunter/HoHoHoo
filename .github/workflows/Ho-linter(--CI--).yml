@@ -1,0 +1,75 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Compose
+        uses: docker/compose-cli@v0.1.0
+        with:
+          compose-file: docker-compose.yml
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan 159.65.199.5 >> ~/.ssh/known_hosts
+          
+      - name: Deploy to Server
+        run: |
+          ssh root@159.65.199.5
+          cd /root/HoHoHoo/
+
+      - name: Build Docker Images and Run Docker Compose
+        run: |
+          cd ./Taco/
+          docker-compose up -d
+          cd ../MinIO/
+          docker-compose up -d
+          cd ../Harbor/
+          docker-compose up -d
+          cd ../Server/
+          docker-compose up -d
+
+      - name: Push Docker Images To Harbor
+        run: |
+          docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} -p ${{ secrets.HARBOR_PASS }}
+          docker tag harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 harbor.shomamamama.com/hohohoo/ssl-server:latest
+          docker push harbor.shomamamama.com/hohohoo/ssl-server:latest
+          docker push harbor.shomamamama.com/hohohoo/ssl-server
+
+      - name: Start Minio and Upload Object
+        run: |
+          cd ../Taco/
+          sleep 10
+          curl -X PUT -T mySite \
+            -H "Authorization: Basic $(echo -n MINIO_ACCESS_KEY:MINIO_SECRET_KEY | base64)" \
+            https://minioapi.shomamamama.com/hohohoo/taco_site
+
+      - name: Test SSL for Domains
+        run: |
+          # Use a tool like OpenSSL to test SSL certificates
+          openssl s_client -connect taco.shomamamama.com:443 -servername taco.shomamamama.com
+          openssl s_client -connect harbor.shomamamama.com:443 -servername harbor.shomamamama.com
+          openssl s_client -connect minio.shomamamama.com:443 -servername minio.shomamamama.com
+          openssl s_client -connect minioapi.shomamamama.com:443 -servername minioapi.shomamamama.com
+
+      - name: Clean Up
+        run: |
+          docker-compose down
+          cd ../MinIO/
+          docker-compose down
+          cd ../Harbor/
+          docker-compose down
+          cd ../Server/
+          docker-compose down
+          exit
