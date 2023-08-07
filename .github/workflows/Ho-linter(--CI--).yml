@@ -36,7 +36,7 @@ jobs:
             docker build -t ssl-server:v0.1.0 .
             docker-compose up -d
 
-      - name: Push Docker Images To Harbor
+      - name: Build and Tag Docker Image
         uses: appleboy/ssh-action@master
         with:
             host: 159.65.199.5
@@ -47,8 +47,11 @@ jobs:
               ssh root@159.65.199.5
               docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} -p ${{ secrets.HARBOR_PASS }}
               docker tag harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 harbor.shomamamama.com/hohohoo/ssl-server:latest
-              docker push harbor.shomamamama.com/hohohoo/ssl-server:latest
-              docker push harbor.shomamamama.com/hohohoo/ssl-server
+
+      - name: Push Docker Image
+        run: |
+          docker push harbor.shomamamama.com/hohohoo/ssl-server:latest
+          docker push harbor.shomamamama.com/hohohoo/ssl-server
 
       - name: Start Minio and Upload Object
         uses: appleboy/ssh-action@master
