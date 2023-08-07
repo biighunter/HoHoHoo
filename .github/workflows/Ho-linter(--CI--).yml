@@ -74,12 +74,20 @@ jobs:
           openssl s_client -connect minioapi.shomamamama.com:443 -servername minioapi.shomamamama.com
 
       - name: Clean Up
-        run: |
-          docker-compose down
-          cd ../MinIO/
-          docker-compose down
-          cd ../Harbor/
-          docker-compose down
-          cd ../Server/
-          docker-compose down
-          exit
+        uses: appleboy/ssh-action@master
+        with:
+          host: 159.65.199.5
+          username: "root"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          run: |
+            ssh root@159.65.199.5
+            cd /root/HoHoHoo/Taco/
+            docker-compose down
+            cd ../MinIO/
+            docker-compose down
+            cd ../Harbor/
+            docker-compose down
+            cd ../Server/
+            docker-compose down
+            exit
