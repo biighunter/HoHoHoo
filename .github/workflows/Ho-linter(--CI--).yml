@@ -17,7 +17,7 @@ jobs:
           compose-file: docker-compose.yml
       
       - name: Deploy to Server
-        uses: appleboy/ssh-action@main
+        uses: appleboy/ssh-action@master
         with:
           host: 159.65.199.5
           username: "root"
