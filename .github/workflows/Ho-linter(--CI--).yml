@@ -23,7 +23,7 @@ jobs:
           username: "root"
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          run: |
+          script: |
             ssh root@159.65.199.5
             cd /root/HoHoHoo/Taco/
             docker build -t taco:v0.1.0 .
