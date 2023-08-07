@@ -44,7 +44,7 @@ jobs:
           port: 22
           script: |
             cd /root/HoHoHoo/Server/
-            docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
+            docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} -p ${{ secrets.HARBOR_PASS }}
           
       - name: Build and Tag Docker Image
         uses: appleboy/ssh-action@master
