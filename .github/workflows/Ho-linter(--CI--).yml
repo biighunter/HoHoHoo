@@ -37,6 +37,7 @@ jobs:
             docker-compose up -d
 
       - name: Build and Tag Docker Image
+        uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           run: |
