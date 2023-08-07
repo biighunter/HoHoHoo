@@ -18,11 +18,11 @@ jobs:
 
       - name: Build Docker Images and Run Docker Compose
         run: |
-          sudo cd /root/HoHoHoo/
-          sudo docker network create Ho
-          sudo cd ./Taco/
-          sudo docker build -t taco:v0.1.0 .
-          sudo docker-compose up -d
+          cd /root/HoHoHoo/
+          docker network create Ho
+          cd ./Taco/
+          docker build -t taco:v0.1.0 .
+          docker-compose up -d
           cd ../MinIO/
           docker-compose up -d
           cd ../Harbor/
