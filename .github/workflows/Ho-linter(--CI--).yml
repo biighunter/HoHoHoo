@@ -25,20 +25,16 @@ jobs:
           port: 22
           run: |
             ssh -tt root@159.65.199.5
-            cd /root/HoHoHoo/
-             
-      - name: Build Taco
-        run: |
-          cd ./Taco/
-          docker build -t taco:v0.1.0 .
-          docker-compose up -d
-          cd ../MinIO/
-          docker-compose up -d
-          cd ../Harbor/
-          docker-compose up -d
-          cd ../Server/
-          docker build -t ssl-server:v0.1.0 .
-          docker-compose up -d
+            cd /root/HoHoHoo/Taco/
+            docker build -t taco:v0.1.0 .
+            docker-compose up -d
+            cd ../MinIO/
+            docker-compose up -d
+            cd ../Harbor/
+            docker-compose up -d
+            cd ../Server/
+            docker build -t ssl-server:v0.1.0 .
+            docker-compose up -d
 
       - name: Push Docker Images To Harbor
         run: |
