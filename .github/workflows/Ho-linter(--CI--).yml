@@ -24,7 +24,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            ssh root@159.65.199.5
             cd /root/HoHoHoo/Taco/
             docker build -t taco:v0.1.0 .
             docker-compose up -d
@@ -44,7 +43,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            ssh root@159.65.199.5
             cd /root/HoHoHoo/Server/
             docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
             docker build -t harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 .
@@ -59,7 +57,7 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: 22
             script: |
-              ssh root@159.65.199.5
+
               cd ../Taco/
               sleep 10
               curl -X PUT -T mySite \
@@ -82,7 +80,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            ssh root@159.65.199.5
             cd /root/HoHoHoo/Taco/
             docker-compose down
             cd ../MinIO/
