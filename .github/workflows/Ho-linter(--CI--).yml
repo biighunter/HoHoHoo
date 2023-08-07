@@ -43,8 +43,7 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: 22
             script: |
-
-              cd ../Taco/
+              cd /root/HoHoHoo/Taco/
               sleep 10
               curl -X PUT -T mySite \
                 -H "Authorization: Basic $(echo -n MINIO_ACCESS_KEY:MINIO_SECRET_KEY | base64)" \
