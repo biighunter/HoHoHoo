@@ -36,7 +36,7 @@ jobs:
             docker build -t ssl-server:v0.1.0 .
             docker-compose up -d
 
-      - name: Push Image To Harbor
+      - name: Build and Tag Docker Image
         uses: appleboy/ssh-action@master
         with:
             host: 159.65.199.5
