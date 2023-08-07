@@ -43,7 +43,7 @@ jobs:
             username: "root"
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: 22
-            run: |
+            script: |
               ssh root@159.65.199.5
               docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} -p ${{ secrets.HARBOR_PASS }}
               docker build -t harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 .
@@ -58,7 +58,7 @@ jobs:
             username: "root"
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: 22
-            run: |
+            script: |
               ssh root@159.65.199.5
               cd ../Taco/
               sleep 10
@@ -81,7 +81,7 @@ jobs:
           username: "root"
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          run: |
+          script: |
             ssh root@159.65.199.5
             cd /root/HoHoHoo/Taco/
             docker-compose down
