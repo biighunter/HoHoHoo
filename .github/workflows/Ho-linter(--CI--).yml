@@ -49,6 +49,7 @@ jobs:
               docker build -t harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 .
               docker tag harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 harbor.shomamamama.com/hohohoo/ssl-server:latest
               docker push harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0
+              docker push harbor.shomamamama.com/hohohoo/ssl-server
 
       - name: Start Minio and Upload Object
         uses: appleboy/ssh-action@master
