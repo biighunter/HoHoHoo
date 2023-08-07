@@ -16,17 +16,17 @@ jobs:
         with:
           compose-file: docker-compose.yml
       
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan 159.65.199.5 >> ~/.ssh/known_hosts
-          
       - name: Deploy to Server
-        run: |
-          ssh -tt root@159.65.199.5 "cd /root/HoHoHoo/"
-
+        uses: appleboy/ssh-action@main
+        with:
+          host: 159.65.199.5
+          username: "root"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          run: |
+            ssh -tt root@159.65.199.5
+            cd /root/HoHoHoo/
+             
       - name: Build Docker Images and Run Docker Compose
         run: |
           cd /root/HoHoHoo/
