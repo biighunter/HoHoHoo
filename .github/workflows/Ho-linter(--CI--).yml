@@ -29,7 +29,6 @@ jobs:
              
       - name: Build Docker Images and Run Docker Compose
         run: |
-          cd /root/HoHoHoo/
           docker network create Ho
           cd ./Taco/
           docker build -t taco:v0.1.0 .
