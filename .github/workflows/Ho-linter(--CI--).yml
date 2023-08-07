@@ -46,6 +46,7 @@ jobs:
             run: |
               ssh root@159.65.199.5
               docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} -p ${{ secrets.HARBOR_PASS }}
+              docker build -t harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 .
               docker tag harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 harbor.shomamamama.com/hohohoo/ssl-server:latest
 
       - name: Push Docker Image
