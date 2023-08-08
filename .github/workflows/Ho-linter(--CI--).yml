@@ -17,7 +17,13 @@ jobs:
         
       - name: Set Docker Image Tag
         id: set_image_tag
-        run: |
+        uses: appleboy/ssh-action@master
+        with:
+          host: 159.65.199.5
+          username: "root"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
             echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_ENV
   
       - name: Modify Docker Compose File
