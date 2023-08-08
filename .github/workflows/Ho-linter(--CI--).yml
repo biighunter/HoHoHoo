@@ -22,7 +22,7 @@ jobs:
   
       - name: Modify Docker Compose File
         run: |
-          sed -i "/taco:v0.1.0/taco:${IMAGE_TAG}/" docker-compose.yml
+          sed -i "s|taco:v0.1.0|taco:${IMAGE_TAG}|" docker-compose.yml
   
       
       - name: Build Docker Images and Run Docker Compose
