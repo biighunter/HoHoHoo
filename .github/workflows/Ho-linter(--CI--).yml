@@ -12,13 +12,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        with:
-          compose-file: docker-compose.yml
-
+        
       - name: Set Docker Image Tag
         id: set_image_tag
         run: |
           echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_ENV
+  
+      - name: Modify Docker Compose File
+        run: |
+          sed -i "s/taco:v0.1.0/taco:${IMAGE_TAG}/" docker-compose.yml
   
       
       - name: Build Docker Images and Run Docker Compose
@@ -32,8 +34,7 @@ jobs:
             cd /root/HoHoHoo/Taco/
             docker-compose down
             git pull
-            docker rmi taco:v
-            docker build -t taco:v0.1.0 .
+            docker build -t taco:${IMAGE_TAG} .
             docker-compose up -d
             cd ../MinIO/
             docker-compose up -d
