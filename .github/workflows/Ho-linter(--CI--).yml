@@ -28,6 +28,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            cd /root/HoHoHoo/Taco/
             sed -i "s|taco:v0.1.0|taco:${IMAGE_TAG}|" docker-compose.yml
   
       
