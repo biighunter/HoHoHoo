@@ -1,16 +1,11 @@
-from flask import Flask, request, jsonify
 import os
 from minio import Minio
 from minio.error import S3Error
 
-app = Flask(__name__)
-
-client = Minio(
-    endpoint="minioapi.shomamamama.com",
+client = Minio(endpoint="minioapi.shomamamama.com",
     access_key="biighunter",
     secret_key="11236939.Smh",
-    secure=True
-)
+    secure=True)
 
 def upload_folder():
     try:
@@ -36,14 +31,5 @@ def upload_folder():
                 return "Folder not found."
     except Exception as e:
         return f"Error: {e}"
-
-@app.route('/upload', methods=['POST'])
-def trigger_upload():
-    try:
-        result = upload_folder()
-        return jsonify({"message": result}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    
+upload_folder()
