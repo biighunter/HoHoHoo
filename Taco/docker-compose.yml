@@ -2,7 +2,7 @@ version: '3'
 
 services:
   Taco-server:    
-    image: taco:v0.1.0
+    image: taco:${IMAGE_TAG}
     container_name: taco
     deploy:
       resources:
