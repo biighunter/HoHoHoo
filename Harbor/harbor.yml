@@ -1,11 +1,13 @@
 hostname: harbor.shomamamama.com
+#external_url: "https://harbor.shomamamama.com"
+
 http:
   port: 80
 
   #https:
   #port: 443
-  #certificate: /etc/docker/certs.d/harbor.shomamamama.com/fullchain1.pem
-  #private_key: /etc/docker/certs.d/harbor.shomamamama.com/privkey1.pem
+  #certificate: /var/lib/docker/volumes/server_ho-certbot/_data/live/harbor.shomamamama.com/fullchain.pem
+  #private_key: /var/lib/docker/volumes/server_ho-certbot/_data/live/harbor.shomamamama.com/privkey.pem
 
 
 harbor_admin_password: Harbor12345
