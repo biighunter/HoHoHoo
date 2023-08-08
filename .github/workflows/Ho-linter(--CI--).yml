@@ -33,7 +33,7 @@ jobs:
             docker-compose down
             git pull
             docker rmi taco:v0.1.0
-            docker build -t taco:v${IMAGE_TAG} .
+            docker build -t taco:v0.1.0 .
             docker-compose up -d
             cd ../MinIO/
             docker-compose up -d
