@@ -26,6 +26,7 @@ jobs:
           script: |
             cd /root/HoHoHoo/Taco/
             docker-compose down
+            git pull
             docker rmi taco:v0.1.0
             docker build -t taco:v0.1.0 .
             docker-compose up -d
