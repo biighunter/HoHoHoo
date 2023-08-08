@@ -32,7 +32,6 @@ jobs:
             cd /root/HoHoHoo/Taco/
             sed -i "s|taco:v0.1.0|taco:${IMAGE_TAG}|" docker-compose.yml
   
-  
       - name: Build Docker Images and Run Docker Compose
         uses: appleboy/ssh-action@master
         with:
