@@ -33,14 +33,14 @@ jobs:
             docker-compose down
             git pull
             docker rmi taco:v0.1.0
-            docker build -t taco:v0.1.0 .
+            docker build -t taco:${IMAGE_TAG} .
             docker-compose up -d
             cd ../MinIO/
             docker-compose up -d
             cd ../Harbor/
             docker-compose up -d
             cd ../Server/
-            docker build -t ssl-server:${IMAGE_TAG} .
+            docker build -t ssl-server:v0.1.0 .
             docker-compose up -d 
 
       # - name: Login to Harbor
