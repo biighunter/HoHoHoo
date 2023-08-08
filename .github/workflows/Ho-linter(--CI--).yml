@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with:
+          compose-file: docker-compose.yml
         
       - name: Set Docker Image Tag
         id: set_image_tag
