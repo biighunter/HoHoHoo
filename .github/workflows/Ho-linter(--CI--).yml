@@ -71,19 +71,16 @@ jobs:
       #       docker push harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0
       #       docker push harbor.shomamamama.com/hohohoo/ssl-server   
 
-      # - name: Start Minio and Upload Object
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #       host: 159.65.199.5
-      #       username: "root"
-      #       key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #       port: 22
-      #       script: |
-      #         cd /root/HoHoHoo/Taco/
-      #         sleep 10
-      #         curl -X PUT -T mySite \
-      #           -H "Authorization: Basic $(echo -n MINIO_ACCESS_KEY:MINIO_SECRET_KEY | base64)" \
-      #           https://minioapi.shomamamama.com/hohohoo/taco_site
+      - name: Start Minio and Upload Object
+        uses: appleboy/ssh-action@master
+        with:
+            host: 159.65.199.5
+            username: "root"
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: 22
+            script: |
+              cd /root/HoHoHoo/MinIO/
+              python3 app.py
 
       - name: Test SSL for Domains
         run: |
