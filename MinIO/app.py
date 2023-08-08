@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from colorama import os
+import os
 from minio import Minio
 from minio.error import S3Error
 
