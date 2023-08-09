@@ -13,6 +13,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
+            path: ./Taco/
             compose-file: docker-compose.yml
 
       - name: Set up Docker Buildx
