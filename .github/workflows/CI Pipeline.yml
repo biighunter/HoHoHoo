@@ -31,15 +31,13 @@ jobs:
                   docker-compose up -d
                   cd ../MinIO/
                   docker-compose up -d
-                  cd ../Harbor/
-                  docker-compose up -d
                   cd ../Server/
                   docker build -t ssl-server:v0.1.0 .
                   docker-compose up -d 
             - name: Login to Harbor
               uses: appleboy/ssh-action@master
               with:
-                 host: 159.65.199.5
+                 host: 161.35.73.156
                  username: "root"
                  key: ${{ secrets.SSH_PRIVATE_KEY }}
                  port: 22
@@ -50,7 +48,7 @@ jobs:
             - name: Build and Tag Docker Image
               uses: appleboy/ssh-action@master
               with:
-                 host: 159.65.199.5
+                 host: 161.35.73.156
                  username: "root"
                  key: ${{ secrets.SSH_PRIVATE_KEY }}
                  port: 22
@@ -61,7 +59,7 @@ jobs:
             - name: Push Image to Harbor
               uses: appleboy/ssh-action@master
               with:
-                 host: 159.65.199.5
+                 host: 161.35.73.156
                  username: "root"
                  key: ${{ secrets.SSH_PRIVATE_KEY }}
                  port: 22
@@ -99,8 +97,6 @@ jobs:
           #       cd /root/HoHoHoo/Taco/
           #       docker-compose down
           #       cd ../MinIO/
-          #       docker-compose down
-          #       cd ../Harbor/
           #       docker-compose down
           #       cd ../Server/
           #       docker-compose down
