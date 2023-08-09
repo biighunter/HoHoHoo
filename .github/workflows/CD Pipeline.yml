@@ -21,7 +21,6 @@ jobs:
 
       - name: Build Docker Images
         run: |
-          cd ./Taco/
           docker-compose build
         #docker push <your-docker-registry>/<your-image-name>:v0.1.0
 
