@@ -20,7 +20,7 @@ jobs:
         run: |
             cd ./Taco/
             docker-compose build
-        #docker push <your-docker-registry>/<your-image-name>:v0.1.0
+        #docker push harbor/image:v0.1.0
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
