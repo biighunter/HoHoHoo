@@ -54,9 +54,10 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: 22
             script: |
+                cd /root/HoHoHoo/Server/
                 docker build -t harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 .
                 docker tag harbor.shomamamama.com/hohohoo/ssl-server:v0.1.0 harbor.shomamamama.com/hohohoo/ssl-server:latest
-
+                cd /root/HoHoHoo/Taco/
                 docker build -t harbor.shomamamama.com/hohohoo/taco:v0.1.0 .
                 docker tag harbor.shomamamama.com/hohohoo/taco:v0.1.0 harbor.shomamamama.com/hohohoo/taco:latest
             
