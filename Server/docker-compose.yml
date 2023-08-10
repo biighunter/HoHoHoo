@@ -13,15 +13,11 @@ services:
       - ho-certbot:/etc/letsencrypt
       - ho-conf:/etc/nginx/conf.d
     ports:
+      - "8080:8080"
       - "80:80"
       - "443:443"
     networks:
       - Ho
-    logging:
-      driver: "syslog"
-      options:
-        syslog-address: "tcp://localhost:1514"
-        tag: "proxy"
 networks:
   Ho:
     external: true
