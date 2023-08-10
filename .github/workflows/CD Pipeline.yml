@@ -55,6 +55,7 @@ jobs:
       - name: Build and Tag Docker Image
         run: |
             version=${{ steps.extract_version.outputs.version }}
+            docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
             cd ./Server/
             docker build -t harbor.shomamamama.com/hohohoo/ssl-server:${version} .
             docker tag harbor.shomamamama.com/hohohoo/ssl-server:${version} harbor.shomamamama.com/hohohoo/ssl-server:latest
