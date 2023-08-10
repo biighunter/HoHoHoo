@@ -29,6 +29,8 @@ jobs:
                   docker-compose up -d
                   cd ../MinIO/
                   docker-compose up -d
+                  cd ../Redis/
+                  docker-compose up -d
                   cd ../Server/
                   docker build -t ssl-server:v0.1.0 .
                   docker-compose up -d 
@@ -51,6 +53,7 @@ jobs:
                 openssl s_client -connect harbor.shomamamama.com:443 -servername harbor.shomamamama.com
                 openssl s_client -connect minio.shomamamama.com:443 -servername minio.shomamamama.com
                 openssl s_client -connect minioapi.shomamamama.com:443 -servername minioapi.shomamamama.com
+                openssl s_client -connect redis.shomamamama.com:443 -servername redis.shomamamama.com
 
           # - name: Clean Up
           #   uses: appleboy/ssh-action@master
