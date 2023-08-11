@@ -20,7 +20,7 @@ services:
       - ":8001"
       - ":443"
     environment:
-      - RIPROXYENABLE=t
+      - RIPROXYENABLE=true
       - REDISINSIGHT_REVERSE_PROXY=true
       - REDISINSIGHT_SERVER_NAME=redis.shomamamama.com
       - REDISINSIGHT_SERVER_SCHEME=https
