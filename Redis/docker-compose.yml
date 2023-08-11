@@ -22,7 +22,7 @@ services:
     environment:
       - REDISINSIGHT_REVERSE_PROXY=true
       - REDISINSIGHT_SERVER_NAME=redis.shomamamama.com
-
+      - REDISINSIGHT_SERVER_SCHEME=https
     volumes:
       - redis_insight_volume_data:/db
     networks:
