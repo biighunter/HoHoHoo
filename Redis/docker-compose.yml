@@ -20,7 +20,8 @@ services:
       - ":8001"
       - ":443"
     environment:
-      - RIPROXYENABLE=true
+      - RIPORT=8001
+      - RITRUSTEDORIGINS=https://redis.shomamamama.com
       - REDISINSIGHT_REVERSE_PROXY=true
       - REDISINSIGHT_SERVER_NAME=redis.shomamamama.com
       - REDISINSIGHT_SERVER_SCHEME=https
