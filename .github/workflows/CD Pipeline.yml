@@ -29,7 +29,7 @@ jobs:
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
         with:
-          host: 159.65.199.5
+          host: 146.190.26.15
           username: "root"
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
@@ -44,7 +44,7 @@ jobs:
       - name: Login to Harbor
         uses: appleboy/ssh-action@master
         with:
-            host: 159.65.199.5
+            host: 146.190.26.15
             username: "root"
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: 22
