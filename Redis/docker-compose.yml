@@ -2,7 +2,7 @@ version: '3'
 
 services:
   redis:
-    image: redis:6.0-alpine
+    image: redis:6.0.7
     container_name: redis-master
     restart: always
     volumes:
@@ -14,7 +14,7 @@ services:
     networks:
       - Ho
   redis-replication-1:
-    image: redis:6.0-alpine
+    image: redis:6.0.7
     container_name: redis-1
     restart: always
     volumes:
@@ -23,7 +23,7 @@ services:
     networks:
       - Ho
   redis-replication-2:
-    image: redis:6.0-alpine
+    image: redis:6.0.7
     container_name: redis-2
     restart: always
     volumes:
