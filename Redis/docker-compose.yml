@@ -1,14 +1,34 @@
 version: '3'
 
 services:
-  redis-master:
-    image: redis:6.0.7
-    container_name: redis
+  redis:
+    image: redis:6.0-alpine
+    container_name: redis-master
     restart: always
     volumes:
       - redis_volume_data:/data
+      - ${pwd}/redis-0:/etc/redis
+    command: redis-server /etc/redis/redis.conf
     ports:
-      - 6379:6379
+      - ":6379"
+    networks:
+      - Ho
+  redis-replication-1:
+    image: redis:6.0-alpine
+    container_name: redis-1
+    restart: always
+    volumes:
+      - ${pwd}/redis-1:/etc/redis
+    command: redis-server /etc/redis/redis.conf
+    networks:
+      - Ho
+  redis-replication-2:
+    image: redis:6.0-alpine
+    container_name: redis-2
+    restart: always
+    volumes:
+      - ${pwd}/redis-2:/etc/redis
+    command: redis-server /etc/redis/redis.conf
     networks:
       - Ho
 
