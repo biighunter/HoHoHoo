@@ -10,7 +10,7 @@ services:
       - ${pwd}/redis-0:/etc/redis
     command: redis-server /etc/redis/redis.conf
     ports:
-      - ":6379"
+      - "6379:6379"
     networks:
       - Ho
   redis-replication-1:
