@@ -7,7 +7,7 @@ services:
     restart: always
     volumes:
       - redis_volume_data:/data
-      - ${pwd}/redis-0:/etc/redis
+      - ./redis-0:/etc/redis
     command: redis-server /etc/redis/redis.conf
     ports:
       - "6379:6379"
@@ -18,7 +18,7 @@ services:
     container_name: redis-1
     restart: always
     volumes:
-      - ${pwd}/redis-1:/etc/redis
+      - ./redis-1:/etc/redis
     command: redis-server /etc/redis/redis.conf
     networks:
       - Ho
@@ -27,7 +27,7 @@ services:
     container_name: redis-2
     restart: always
     volumes:
-      - ${pwd}/redis-2:/etc/redis
+      - ./redis-2:/etc/redis
     command: redis-server /etc/redis/redis.conf
     networks:
       - Ho
