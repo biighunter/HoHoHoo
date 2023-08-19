@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 services:
   #####################---BUILD -THE-NODE-IMAGES-(I-SOPOSE)---##############################
