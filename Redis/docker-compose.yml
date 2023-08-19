@@ -23,7 +23,7 @@ services:
       app_subnet:
         ipv4_address: 172.21.0.10
     depends_on:
-      - postgres
+      - postgres:5432
       - redis
       #############---REDIS-CLUSTER-SERVER-(MASTER)--############
   redis:
