@@ -25,6 +25,24 @@ services:
     depends_on:
       - postgres
       - redis
+      ##############---POSTGRES---#############
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    restart: always
+    environment:
+      - POSTGRES_DB=postgresdb
+      - POSTGRES_USER=biighunter
+      - POSTGRES_PASSWORD=1122
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_rd_data:/var/lib/postgresql/data
+    networks:
+      Ho:
+      app_subnet:
+        ipv4_address: 172.21.0.20
+
       #############---REDIS-CLUSTER-SERVER-(MASTER)--############
   redis:
     image: redis:6.0.7
@@ -139,6 +157,7 @@ services:
       - Ho
 
 volumes:
+  pg_rd_data:
   db-data:
   redis-node-1-data:
   redis-node-2-data:
