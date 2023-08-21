@@ -56,8 +56,8 @@ services:
     volumes:
       - ./redis-1:/etc/redis
     command: redis-server /etc/redis/redis.conf
-    # ports:
-    #   - "6380:6379"
+    ports:
+      - "6380:6379"
     networks:
       - Ho
   redis-replication-2:
@@ -67,8 +67,8 @@ services:
     volumes:
       - ./redis-2:/etc/redis
     command: redis-server /etc/redis/redis.conf
-    # ports:
-    #   - "6381:6379"
+    ports:
+      - "6381:6379"
     networks:
       - Ho
 
