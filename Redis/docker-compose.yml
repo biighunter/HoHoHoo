@@ -36,7 +36,7 @@ services:
       - "26381:26379"
     networks:
       - Ho
-##############----REDIS-CLUSTER----################
+##############----REDIS-REPLICATION----################
   redis:
     image: redis:6.0.7
     container_name: redis-master
