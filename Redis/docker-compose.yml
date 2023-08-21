@@ -10,8 +10,8 @@ services:
       - redis_volume_data:/data
       - ./sentinel-0:/etc/redis
     command: redis-sentinel /etc/redis/sentinel.conf
-    # ports:
-    #   - "6380:6380"
+    ports:
+      - "6380:6380"
     networks:
       - Ho
   sentinel-replication-1:
