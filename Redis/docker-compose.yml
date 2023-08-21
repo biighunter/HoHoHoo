@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-##########----SENTINEL----###########
+##########----REDIS-SENTINEL----###########
   redis-sentinel:
     image: redis:6.0-alpine
     container_name: sentinel-0
