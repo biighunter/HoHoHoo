@@ -1,41 +1,6 @@
 version: '3'
 
 services:
-##########----REDIS-SENTINEL----###########
-  redis-sentinel:
-    image: redis:6.0-alpine
-    container_name: sentinel-0
-    restart: always
-    volumes:
-      - redis_volume_data:/data
-      - ./sentinel-0:/etc/redis
-    command: redis-sentinel /etc/redis/sentinel.conf
-    ports:
-      - "26379:26379"
-    networks:
-      - Ho
-  redis-sentinel-1:
-    image: redis:6.0-alpine
-    container_name: sentinel-1
-    restart: always
-    volumes:
-      - ./sentinel-1:/etc/redis
-    command: redis-sentinel /etc/redis/sentinel.conf
-    # ports:
-    #   - "26380:26379"
-    networks:
-      - Ho
-  redis-sentinel-2:
-    image: redis:6.0-alpine
-    container_name: sentinel-2
-    restart: always
-    volumes:
-      - ./sentinel-2:/etc/redis
-    command: redis-sentinel /etc/redis/sentinel.conf
-    # ports:
-    #   - "26381:26379"
-    networks:
-      - Ho
 ##############----REDIS-REPLICATION----################
   redis:
     image: redis:6.0.7
@@ -87,6 +52,41 @@ services:
       - REDISINSIGHT_SERVER_SCHEME=https
     volumes:
       - redis_insight_volume_data:/db
+    networks:
+      - Ho
+      ##########----REDIS-SENTINEL----###########
+  redis-sentinel:
+    image: redis:6.0-alpine
+    container_name: sentinel-0
+    restart: always
+    volumes:
+      - redis_volume_data:/data
+      - ./sentinel-0:/etc/redis
+    command: redis-sentinel /etc/redis/sentinel.conf
+    ports:
+      - "26379:26379"
+    networks:
+      - Ho
+  redis-sentinel-1:
+    image: redis:6.0-alpine
+    container_name: sentinel-1
+    restart: always
+    volumes:
+      - ./sentinel-1:/etc/redis
+    command: redis-sentinel /etc/redis/sentinel.conf
+    ports:
+      - "26380:26379"
+    networks:
+      - Ho
+  redis-sentinel-2:
+    image: redis:6.0-alpine
+    container_name: sentinel-2
+    restart: always
+    volumes:
+      - ./sentinel-2:/etc/redis
+    command: redis-sentinel /etc/redis/sentinel.conf
+    ports:
+      - "26381:26379"
     networks:
       - Ho
 
