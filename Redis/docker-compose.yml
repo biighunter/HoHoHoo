@@ -11,7 +11,7 @@ services:
       - ./sentinel-0:/etc/redis
     command: redis-sentinel /etc/redis/sentinel.conf
     ports:
-      - "6379:6379"
+      - ":6379"
     networks:
       - Ho
   sentinel-replication-1:
@@ -42,7 +42,7 @@ services:
       - ./redis-0:/etc/redis
     command: redis-server /etc/redis/redis.conf
     ports:
-      - "6379:6379"
+      - ":6379"
     networks:
       - Ho
   redis-replication-1:
