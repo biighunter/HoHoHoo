@@ -1,6 +1,38 @@
 version: '3'
 
 services:
+##########----SENTINEL----###########
+  redis-sentinel:
+    image: redis:6.0-alpine
+    container_name: sentinel-0
+    restart: always
+    volumes:
+      - redis_volume_data:/data
+      - ./sentinel-0:/etc/redis
+    command: redis-sentinel /etc/redis/sentinel.conf
+    ports:
+      - "6379:6379"
+    networks:
+      - Ho
+  sentinel-replication-1:
+    image: redis:6.0-alpine
+    container_name: sentinel-1
+    restart: always
+    volumes:
+      - ./sentinel-1:/etc/redis
+    command: redis-sentinel /etc/redis/sentinel.conf
+    networks:
+      - Ho
+  sentinel-replication-2:
+    image: redis:6.0-alpine
+    container_name: sentinel-2
+    restart: always
+    volumes:
+      - ./sentinel-2:/etc/redis
+    command: redis-sentinel /etc/redis/sentinel.conf
+    networks:
+      - Ho
+##############----REDIS-CLUSTER----################
   redis:
     image: redis:6.0.7
     container_name: redis-master
