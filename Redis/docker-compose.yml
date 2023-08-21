@@ -14,7 +14,7 @@ services:
       - "26379:26379"
     networks:
       - Ho
-  sentinel-replication-1:
+  redis-sentinel-1:
     image: redis:6.0-alpine
     container_name: sentinel-1
     restart: always
@@ -25,7 +25,7 @@ services:
       - "26380:26379"
     networks:
       - Ho
-  sentinel-replication-2:
+  redis-sentinel-2:
     image: redis:6.0-alpine
     container_name: sentinel-2
     restart: always
