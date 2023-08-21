@@ -21,8 +21,8 @@ services:
     volumes:
       - ./sentinel-1:/etc/redis
     command: redis-sentinel /etc/redis/sentinel.conf
-    ports:
-      - "26380:26379"
+    # ports:
+    #   - "26380:26379"
     networks:
       - Ho
   redis-sentinel-2:
@@ -32,8 +32,8 @@ services:
     volumes:
       - ./sentinel-2:/etc/redis
     command: redis-sentinel /etc/redis/sentinel.conf
-    ports:
-      - "26381:26379"
+    # ports:
+    #   - "26381:26379"
     networks:
       - Ho
 ##############----REDIS-REPLICATION----################
