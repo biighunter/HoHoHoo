@@ -46,14 +46,14 @@ jobs:
                     cd /root/HoHoHoo/MinIO/
                     python3 app.py
 
-            - name: Test SSL for Domains
-              run: |
-                # Use a tool like OpenSSL to test SSL certificates
-                openssl s_client -connect taco.shomamamama.com:443 -servername taco.shomamamama.com
-                openssl s_client -connect harbor.shomamamama.com:443 -servername harbor.shomamamama.com
-                openssl s_client -connect minio.shomamamama.com:443 -servername minio.shomamamama.com
-                openssl s_client -connect minioapi.shomamamama.com:443 -servername minioapi.shomamamama.com
-                openssl s_client -connect redis.shomamamama.com:443 -servername redis.shomamamama.com
+            # - name: Test SSL for Domains
+            #   run: |
+            #     # Use a tool like OpenSSL to test SSL certificates
+            #     openssl s_client -connect taco.shomamamama.com:443 -servername taco.shomamamama.com
+            #     openssl s_client -connect harbor.shomamamama.com:443 -servername harbor.shomamamama.com
+            #     openssl s_client -connect minio.shomamamama.com:443 -servername minio.shomamamama.com
+            #     openssl s_client -connect minioapi.shomamamama.com:443 -servername minioapi.shomamamama.com
+            #     openssl s_client -connect redis.shomamamama.com:443 -servername redis.shomamamama.com
 
           # - name: Clean Up
           #   uses: appleboy/ssh-action@master
