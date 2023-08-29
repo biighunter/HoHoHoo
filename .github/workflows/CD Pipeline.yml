@@ -12,6 +12,16 @@ jobs:
       contents: write
 
     steps:
+      - name: Clear npm cache
+        uses: appleboy/ssh-action@master  
+        with:
+          host: 146.190.26.15
+          username: "root"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            npm cache clean --force
+
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
