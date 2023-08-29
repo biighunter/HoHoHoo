@@ -41,12 +41,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}  
       
       - name: Sync Master to Release Tag
-        run: |
-          version=${{ steps.extract_version.outputs.version }}
-          git checkout master
-          git cherry-pick --strategy=recursive -Xtheirs $version
-          git tag -f $version
-          git push origin master $version
+        uses: appleboy/ssh-action@master  
+        with:
+          host: 146.190.26.15
+          username: "root"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            version=${{ steps.extract_version.outputs.version }}
+            git push origin master $version
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
 
