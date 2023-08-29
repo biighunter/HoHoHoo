@@ -17,14 +17,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - uses: appleboy/ssh-action@master
-        with:
-          host: 146.190.26.15
-          username: "root"
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            npm ci
-            npm semantic-release
+      - run: npm ci
+      - run: npm run build
+      - run: npm semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
