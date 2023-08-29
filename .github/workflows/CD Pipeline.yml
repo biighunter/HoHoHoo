@@ -2,116 +2,24 @@ name: CD Pipeline
 
 on:
   push:
-    paths:
-      - 'Taco/**'
+    branches:
+      - master
+    # paths:
+    #   - 'Taco/**'
 
 jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
-
     steps:
-      - name: Clear npm cache
-        uses: appleboy/ssh-action@master  
-        with:
-          host: 146.190.26.15
-          username: "root"
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            npm cache clean --force
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'
 
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: '0'
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.64.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        WITH_V: false
 
-      # - name: Bump version and push tag
-      #   uses: anothrNick/github-tag-action@1.64.0
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-      #     WITH_V: false
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Build Docker Images
-        run: |
-            cd ./Taco/
-            docker-compose build
-
-      - name: Extract Version Number
-        id: extract_version
-        run: echo "::set-output name=version::$(echo $GITHUB_REF | sed -n 's/refs\/tags\/v\(.*\)/\1/p')"
-    
-      - name: Bump and Tag Master
-        run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}  
-      
-      - name: Sync Master to Release Tag
-        uses: appleboy/ssh-action@master  
-        with:
-          host: 146.190.26.15
-          username: "root"
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            version=${{ steps.extract_version.outputs.version }}
-            git push origin master $version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: 146.190.26.15
-          username: "root"
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd /root/HoHoHoo/Taco/
-            docker-compose down
-            git pull
-            docker-compose up -d
-            
-
-          
-      - name: Login to Harbor
-        uses: appleboy/ssh-action@master
-        with:
-            host: 146.190.26.15
-            username: "root"
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            port: 22
-            script: |
-                cd /root/HoHoHoo/Server/
-                docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
-            
-      - name: Build and Tag Docker Image
-        run: |
-            version=${{ steps.extract_version.outputs.version }}
-            docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
-            cd ./Server/
-            docker build -t harbor.shomamamama.com/hohohoo/ssl-server:${version} .
-            docker tag harbor.shomamamama.com/hohohoo/ssl-server:${version} harbor.shomamamama.com/hohohoo/ssl-server:latest
-            cd ../Taco/
-            docker build -t harbor.shomamamama.com/hohohoo/taco:${version} .
-            docker tag harbor.shomamamama.com/hohohoo/taco:${version} harbor.shomamamama.com/hohohoo/taco:latest
-            
-      - name: Push Image to Harbor
-        run: |
-            version=${{ steps.extract_version.outputs.version }}
-            docker push harbor.shomamamama.com/hohohoo/taco:${version}
-            docker push harbor.shomamamama.com/hohohoo/taco 
-            
-            docker push harbor.shomamamama.com/hohohoo/ssl-server:${version}
-            docker push harbor.shomamamama.com/hohohoo/ssl-server 
