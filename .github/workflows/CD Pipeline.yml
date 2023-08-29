@@ -1,12 +1,9 @@
 name: Bump version
 
-
 on:
   push:
     branches:
       - main
-    # paths:
-    #   - 'Taco/**'
 
 jobs:
   build:
@@ -21,6 +18,5 @@ jobs:
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.64.0
       env:
-        GITHUB_TOKEN: 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
+        GITHUB_TOKEN: ${{ secrets.PAT }}
         WITH_V: false
-
