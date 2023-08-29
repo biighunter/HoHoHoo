@@ -22,7 +22,10 @@ jobs:
           username: "root"
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          # script: |
+          script: |
+            cd /root/HoHoHoo/
+            git pull
+            chmod +x /root/HoHoHoo/entrypoint.sh
     - uses: biighunter/HoHoHoo@main # Don't use @master or @v1 unless you're happy to test the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # if you don't want to set write permissions use a PAT token
