@@ -1,4 +1,14 @@
 {
-    "branches": ["master"]
-  }
-  
+  "branches": false,
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    ["@semantic-release/exec", {
+      "prepareCmd": "echo 'Skipping prepare step'",
+      "publishCmd": "echo 'Skipping publish step'",
+      "successCmd": "echo 'Skipping success step'"
+    }],
+    "@semantic-release/git"
+  ]
+}
