@@ -22,9 +22,15 @@ patch_string_token=${PATCH_STRING_TOKEN:-#patch}
 none_string_token=${NONE_STRING_TOKEN:-#none}
 branch_history=${BRANCH_HISTORY:-compare}
 # since https://github.blog/2022-04-12-git-security-vulnerability-announced/ runner uses?
+cd /root/HoHoHoo/
 git config --global --add safe.directory /github/workspace
 
 cd "${GITHUB_WORKSPACE}/${source}" || exit 1
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Not inside a Git repository."
+    exit 1
+fi
 
 echo "*** CONFIGURATION ***"
 echo -e "\tDEFAULT_BUMP: ${default_semvar_bump}"
