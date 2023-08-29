@@ -21,6 +21,13 @@ jobs:
           port: 22
           script: |
             npm cache clean --force
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: Checkout Repository
         uses: actions/checkout@v2
