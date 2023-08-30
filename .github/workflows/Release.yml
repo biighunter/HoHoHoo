@@ -16,8 +16,69 @@ jobs:
         fetch-depth: '0'
 
     - name: Bump version and push tag
+      id: tag_version
       uses: anothrNick/github-tag-action@1.67.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: true
-        PRERELEASE: true
+        PRERELEASE: true 
+      
+     
+    - name: Sync Master to Release Tag
+      uses: appleboy/ssh-action@master  
+      with:
+        host: 146.190.26.15
+        username: "root"
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          version=${{ steps.tag_version.outputs }}
+          git push origin "main:$version"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: 146.190.26.15
+        username: "root"
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd /root/HoHoHoo/Taco/
+          docker-compose down
+          git pull
+          docker-compose up -d
+            
+
+          
+    - name: Login to Harbor
+      uses: appleboy/ssh-action@master
+      with:
+          host: 146.190.26.15
+          username: "root"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+              cd /root/HoHoHoo/Server/
+              docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
+          
+    - name: Build and Tag Docker Image
+      run: |
+          version=${{ steps.tag_version.outputs }}
+          docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
+          cd ./Server/
+          docker build -t harbor.shomamamama.com/hohohoo/ssl-server:${version} .
+          docker tag harbor.shomamamama.com/hohohoo/ssl-server:${version} harbor.shomamamama.com/hohohoo/ssl-server:latest
+          cd ../Taco/
+          docker build -t harbor.shomamamama.com/hohohoo/taco:${version} .
+          docker tag harbor.shomamamama.com/hohohoo/taco:${version} harbor.shomamamama.com/hohohoo/taco:latest
+          
+    - name: Push Image to Harbor
+      run: |
+          version=${{ steps.tag_version.outputs }}
+          docker push harbor.shomamamama.com/hohohoo/taco:${version}
+          docker push harbor.shomamamama.com/hohohoo/taco 
+          
+          docker push harbor.shomamamama.com/hohohoo/ssl-server:${version}
+          docker push harbor.shomamamama.com/hohohoo/ssl-server 
