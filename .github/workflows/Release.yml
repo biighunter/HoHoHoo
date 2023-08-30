@@ -32,6 +32,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
+          cd /root/HoHoHoo/
           version=${{ steps.tag_version.outputs.tag }}
           git push origin master $version
       env:
