@@ -23,6 +23,8 @@ jobs:
         WITH_V: true
         PRERELEASE: true 
       
+    - name: Set tag version as an output
+      run: echo "TAG_VERSION=${{ steps.tag_version.outputs.tag }}" >> $GITHUB_ENV
      
     - name: Sync Master to Release Tag
       uses: appleboy/ssh-action@master  
@@ -32,9 +34,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          cd /root/HoHoHoo/ 
-          version=${{ steps.tag_version.outputs.tag }}
-          git push origin master $version
+          cd /root/HoHoHoo/
+          git push origin master $TAG_VERSION
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
 
@@ -66,7 +67,7 @@ jobs:
           
     - name: Build and Tag Docker Image
       run: |
-          version=${{ steps.tag_version.outputs.tag }}
+          version=$TAG_VERSION
           docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
           cd ./Server/
           docker build -t harbor.shomamamama.com/hohohoo/ssl-server:${version} .
@@ -77,7 +78,7 @@ jobs:
           
     - name: Push Image to Harbor
       run: |
-          version=${{ steps.tag_version.outputs.tag }}
+          version=$TAG_VERSION
           docker push harbor.shomamamama.com/hohohoo/taco:${version}
           docker push harbor.shomamamama.com/hohohoo/taco 
           
