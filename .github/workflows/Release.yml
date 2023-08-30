@@ -35,7 +35,7 @@ jobs:
         port: 22
         script: |
           cd /root/HoHoHoo/
-          git push origin master $TAG_VERSION
+          git push origin main $TAG_VERSION
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
 
