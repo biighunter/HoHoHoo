@@ -7,26 +7,22 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: write
+    name: Create Release
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: '0'
-
-    - name: Bump version and push tag
-      # uses: appleboy/ssh-action@master
-      # with:
-      #     host: 146.190.26.15
-      #     username: "root"
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     port: 22
-          # script: |
-          #   cd /root/HoHoHoo/
-          #   git pull
-          #   chmod +x ./entrypoint.sh
-      uses: biighunter/HoHoHoo@main # Don't use @master or @v1 unless you're happy to test the latest version
-      env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # if you don't want to set write permissions use a PAT token
-        WITH_V: false
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
