@@ -71,5 +71,6 @@ jobs:
           echo "TACO_VERSION=${version}" > .env
           docker compose up -d
           cd ../
+          git pull origin main
           git commit -am "Update"
           git push
