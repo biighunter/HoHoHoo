@@ -67,7 +67,7 @@ jobs:
         script: |
           
           version=$TAG_VERSION
-          cd ./Taco/
+          cd /root/HoHoHoo/Taco/
           echo "TACO_VERSION=${version}" > .env
           docker compose up -d
           cd ../
