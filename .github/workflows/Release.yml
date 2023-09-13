@@ -69,6 +69,7 @@ jobs:
           version=$TAG_VERSION
           cd /root/HoHoHoo/Taco/
           echo "TACO_VERSION=${version}" > .env
+          docker pull harbor.shomamamama.com/hohohoo/taco:${version}
           docker compose up -d
           cd ../
           git pull origin main
