@@ -72,5 +72,6 @@ jobs:
           docker compose up -d
           cd ../
           git pull origin main
-          git commit -am "Update"
+          git add .
+          git commit -m "Update"
           git push
