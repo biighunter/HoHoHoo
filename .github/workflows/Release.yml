@@ -25,35 +25,7 @@ jobs:
       
     - name: Set tag version as an output
       run: echo "TAG_VERSION=${{ steps.tag_version.outputs.tag }}" >> $GITHUB_ENV
-     
-    - name: Sync Master to Release Tag
-      uses: appleboy/ssh-action@master  
-      with:
-        host: 146.190.26.15
-        username: "root"
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          cd /root/HoHoHoo/
-          git push origin main $TAG_VERSION
-      env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
 
-    - name: Deploy to Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: 146.190.26.15
-        username: "root"
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          cd /root/HoHoHoo/Taco/
-          docker-compose down
-          git pull
-          docker-compose up -d
-            
-
-          
     - name: Login to Harbor
       uses: appleboy/ssh-action@master
       with:
@@ -84,3 +56,20 @@ jobs:
           
           docker push harbor.shomamamama.com/hohohoo/ssl-server:${version}
           docker push harbor.shomamamama.com/hohohoo/ssl-server 
+
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: 146.190.26.15
+        username: "root"
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          
+          version=$TAG_VERSION
+          cd ./Taco/
+          echo "TACO_VERSION=${version}" > .env
+          docker compose up -d
+          cd ../
+          git commit -am "Update"
+          git push
