@@ -70,7 +70,6 @@ jobs:
           cd /root/HoHoHoo/Taco/
           echo "TACO_VERSION=${version}" > .env
           docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
-          docker pull harbor.shomamamama.com/hohohoo/taco:${version}
           docker compose up -d
           cd ../
           git pull origin main

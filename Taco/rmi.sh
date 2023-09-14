@@ -1,6 +1,6 @@
 #!/bin/bash
 
-image="harbor.shomamamama.com/hohohoo/taco:${TACO_VERSION}"
+image="harbor.shomamamama.com/hohohoo/taco:latest"
 
 if docker image inspect "$image" &> /dev/null; then
     echo "Image exists. Removing..."
