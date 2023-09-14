@@ -67,7 +67,7 @@ jobs:
         port: 22
         script: |
           version=$TAG_VERSION
-          cd ./Taco/
+          cd /root/HoHoHoo/Taco/
           echo "TACO_VERSION=${version}" > .env
           docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
           docker pull harbor.shomamamama.com/hohohoo/taco:${version}
