@@ -7,9 +7,11 @@ on:
 
 jobs:
   build:
+    
     runs-on: ubuntu-22.04
     permissions:
       contents: write
+
     steps:
     - uses: actions/checkout@v4
       with:
@@ -22,40 +24,40 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: true
         PRERELEASE: true 
-      
+
+    - name: Remove Old Harbor Image on Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: 146.190.26.15
+        username: "root"
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd /root/HoHoHoo/Taco/
+          git pull
+          chmod +x ./rmi.sh
+          ./rmi.sh
+
     - name: Set tag version as an output
       run: echo "TAG_VERSION=${{ steps.tag_version.outputs.tag }}" >> $GITHUB_ENV
 
     - name: Login to Harbor
-      uses: appleboy/ssh-action@master
-      with:
-          host: 146.190.26.15
-          username: "root"
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-              cd /root/HoHoHoo/Server/
-              docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
-          
+      run: |
+        cd ./Server/
+        docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
+
     - name: Build and Tag Docker Image
       run: |
           version=$TAG_VERSION
-          docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
-          cd ./Server/
-          docker build -t harbor.shomamamama.com/hohohoo/ssl-server:${version} .
-          docker tag harbor.shomamamama.com/hohohoo/ssl-server:${version} harbor.shomamamama.com/hohohoo/ssl-server:latest
           cd ../Taco/
           docker build -t harbor.shomamamama.com/hohohoo/taco:${version} .
           docker tag harbor.shomamamama.com/hohohoo/taco:${version} harbor.shomamamama.com/hohohoo/taco:latest
-          
+  
     - name: Push Image to Harbor
       run: |
           version=$TAG_VERSION
           docker push harbor.shomamamama.com/hohohoo/taco:${version}
-          docker push harbor.shomamamama.com/hohohoo/taco 
-          
-          docker push harbor.shomamamama.com/hohohoo/ssl-server:${version}
-          docker push harbor.shomamamama.com/hohohoo/ssl-server 
+          docker push harbor.shomamamama.com/hohohoo/taco
 
     - name: Deploy to Server
       uses: appleboy/ssh-action@master
@@ -65,10 +67,10 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          
           version=$TAG_VERSION
-          cd /root/HoHoHoo/Taco/
+          cd ./Taco/
           echo "TACO_VERSION=${version}" > .env
+          docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
           docker pull harbor.shomamamama.com/hohohoo/taco:${version}
           docker compose up -d
           cd ../
