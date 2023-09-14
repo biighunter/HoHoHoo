@@ -33,10 +33,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          cd /root/HoHoHoo/Taco/
-          git pull
-          chmod +x ./rmi.sh
-          ./rmi.sh
+          docker rmi harbor.shomamamama.com/hohohoo/taco:latest
 
     - name: Set tag version as an output
       run: echo "TAG_VERSION=${{ steps.tag_version.outputs.tag }}" >> $GITHUB_ENV
