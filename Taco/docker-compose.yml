@@ -4,11 +4,6 @@ services:
   Taco-server:    
     image: harbor.shomamamama.com/hohohoo/taco:${TACO_VERSION}
     container_name: taco
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512MB
     expose:
       - 80
       - 443
