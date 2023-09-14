@@ -43,13 +43,12 @@ jobs:
 
     - name: Login to Harbor
       run: |
-        cd ./Server/
         docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
 
     - name: Build and Tag Docker Image
       run: |
           version=$TAG_VERSION
-          cd ../Taco/
+          cd ./Taco/
           docker build -t harbor.shomamamama.com/hohohoo/taco:${version} .
           docker tag harbor.shomamamama.com/hohohoo/taco:${version} harbor.shomamamama.com/hohohoo/taco:latest
   
