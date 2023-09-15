@@ -2,7 +2,7 @@ version: '3'
 
 services:
   Taco-server:    
-    image: harbor.shomamamama.com/hohohoo/taco:latest
+    image: harbor.shomamamama.com/hohohoo/taco:${TACO_VERSION}
     container_name: taco
     expose:
       - 80
