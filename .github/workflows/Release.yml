@@ -53,7 +53,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          docker rmi harbor.shomamamama.com/hohohoo/taco:${TACO_VERSION}
           version=$TAG_VERSION
           cd /root/HoHoHoo/Taco/
           echo "TACO_VERSION=${version}" > .env
