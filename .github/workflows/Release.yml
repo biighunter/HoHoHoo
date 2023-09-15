@@ -53,11 +53,12 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
+          docker rmi harbor.shomamamama.com/hohohoo/taco:${TACO_VERSION}
           version=$TAG_VERSION
           cd /root/HoHoHoo/Taco/
           echo "TACO_VERSION=${version}" > .env
           docker login harbor.shomamamama.com -u ${{ secrets.HARBOR_USER }} --password-stdin <<< ${{ secrets.HARBOR_PASS }}
-          docker rmi harbor.shomamamama.com/hohohoo/taco:${TACO_VERSION}
+          docker pull harbor.shomamamama.com/hohohoo/taco:${TACO_VERSION}          
           docker compose up -d
           cd ../
           git pull origin main
